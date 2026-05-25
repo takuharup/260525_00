@@ -1,0 +1,6 @@
+# VBScript for Japanese Windows - Shift-JIS encoding
+setup_vba.vbs   -text
+
+# VBA source files - UTF-8
+*.bas   text eol=crlf
+*.frm   text eol=crlf

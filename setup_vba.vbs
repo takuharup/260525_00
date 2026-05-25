@@ -2,15 +2,15 @@ Option Explicit
 
 '=================================================================
 ' setup_vba.vbs
-' SupportReaction.xlsm ã‚’æ–°è¦ä½œæˆã—ã€
-' ParseSupportReaction ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¨ FormNodeSelect ãƒ•ã‚©ãƒ¼ãƒ ã‚’
-' è‡ªå‹•ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã™ã‚‹ã€‚
+' SupportReaction.xlsm ‚ğV‹Kì¬‚µA
+' ParseSupportReaction ƒ‚ƒWƒ…[ƒ‹‚Æ FormNodeSelect ƒtƒH[ƒ€‚ğ
+' ©“®ƒZƒbƒgƒAƒbƒv‚·‚éB
 '
-' å‰ææ¡ä»¶ï¼š
-'   Excelã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€â†’ã€Œã‚ªãƒ—ã‚·ãƒ§ãƒ³ã€â†’ã€Œãƒˆãƒ©ã‚¹ãƒˆã‚»ãƒ³ã‚¿ãƒ¼ã€â†’
-'   ã€Œãƒˆãƒ©ã‚¹ãƒˆã‚»ãƒ³ã‚¿ãƒ¼ã®è¨­å®šã€â†’ã€Œãƒã‚¯ãƒ­ã®è¨­å®šã€ã§
-'   ã€ŒVBAãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ãƒ¢ãƒ‡ãƒ«ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’ä¿¡é ¼ã™ã‚‹ã€
-'   ã«ãƒã‚§ãƒƒã‚¯ã‚’å…¥ã‚Œã¦ã‹ã‚‰å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚
+' ‘O’ñğŒF
+'   Exceluƒtƒ@ƒCƒ‹v¨uƒIƒvƒVƒ‡ƒ“v¨uƒgƒ‰ƒXƒgƒZƒ“ƒ^[v¨
+'   uƒgƒ‰ƒXƒgƒZƒ“ƒ^[‚Ìİ’èv¨uƒ}ƒNƒ‚Ìİ’èv‚Å
+'   uVBAƒvƒƒWƒFƒNƒg ƒIƒuƒWƒFƒNƒg ƒ‚ƒfƒ‹‚Ö‚ÌƒAƒNƒZƒX‚ğM—Š‚·‚év
+'   ‚Éƒ`ƒFƒbƒN‚ğ“ü‚ê‚Ä‚©‚çÀs‚µ‚Ä‚­‚¾‚³‚¢B
 '=================================================================
 
 Dim fso, xl, wb, savePath
@@ -18,37 +18,37 @@ Dim fso, xl, wb, savePath
 Set fso = CreateObject("Scripting.FileSystemObject")
 savePath = fso.BuildPath(fso.GetParentFolderName(WScript.ScriptFullName), "SupportReaction.xlsm")
 
-' ---- Excel èµ·å‹• ----
+' ---- Excel ‹N“® ----
 Set xl = CreateObject("Excel.Application")
 xl.Visible       = False
 xl.DisplayAlerts = False
 
-' ---- æ–°è¦ãƒ–ãƒƒã‚¯ä½œæˆ ----
+' ---- V‹KƒuƒbƒNì¬ ----
 Set wb = xl.Workbooks.Add()
 
-' ---- .xlsm ã¨ã—ã¦ä¿å­˜ï¼ˆ52 = xlOpenXMLWorkbookMacroEnabledï¼‰----
+' ---- .xlsm ‚Æ‚µ‚Ä•Û‘¶i52 = xlOpenXMLWorkbookMacroEnabledj----
 On Error Resume Next
 wb.SaveAs savePath, 52
 If Err.Number <> 0 Then
-    MsgBox "ä¿å­˜ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" & vbCrLf & Err.Description, 16, "ã‚¨ãƒ©ãƒ¼"
+    MsgBox "•Û‘¶‚É¸”s‚µ‚Ü‚µ‚½B" & vbCrLf & Err.Description, 16, "ƒGƒ‰["
     wb.Close False : xl.Quit : WScript.Quit
 End If
 On Error GoTo 0
 
-' ---- VBProject ã‚¢ã‚¯ã‚»ã‚¹ç¢ºèª ----
+' ---- VBProject ƒAƒNƒZƒXŠm”F ----
 On Error Resume Next
 Dim chk : chk = wb.VBProject.VBComponents.Count
 If Err.Number <> 0 Then
-    MsgBox "VBAãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã›ã‚“ã€‚" & vbCrLf & vbCrLf & _
-           "Excel ã®ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€â†’ã€Œã‚ªãƒ—ã‚·ãƒ§ãƒ³ã€â†’ã€Œãƒˆãƒ©ã‚¹ãƒˆã‚»ãƒ³ã‚¿ãƒ¼ã€â†’" & vbCrLf & _
-           "ã€Œãƒˆãƒ©ã‚¹ãƒˆã‚»ãƒ³ã‚¿ãƒ¼ã®è¨­å®šã€â†’ã€Œãƒã‚¯ãƒ­ã®è¨­å®šã€ã§" & vbCrLf & _
-           "ã€ŒVBAãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ãƒ¢ãƒ‡ãƒ«ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’ä¿¡é ¼ã™ã‚‹ã€" & vbCrLf & _
-           "ã‚’æœ‰åŠ¹ã«ã—ã¦ã‹ã‚‰å†å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚", 16, "ã‚¨ãƒ©ãƒ¼"
+    MsgBox "VBAƒvƒƒWƒFƒNƒg‚ÉƒAƒNƒZƒX‚Å‚«‚Ü‚¹‚ñB" & vbCrLf & vbCrLf & _
+           "Excel ‚Ìuƒtƒ@ƒCƒ‹v¨uƒIƒvƒVƒ‡ƒ“v¨uƒgƒ‰ƒXƒgƒZƒ“ƒ^[v¨" & vbCrLf & _
+           "uƒgƒ‰ƒXƒgƒZƒ“ƒ^[‚Ìİ’èv¨uƒ}ƒNƒ‚Ìİ’èv‚Å" & vbCrLf & _
+           "uVBAƒvƒƒWƒFƒNƒg ƒIƒuƒWƒFƒNƒg ƒ‚ƒfƒ‹‚Ö‚ÌƒAƒNƒZƒX‚ğM—Š‚·‚év" & vbCrLf & _
+           "‚ğ—LŒø‚É‚µ‚Ä‚©‚çÄÀs‚µ‚Ä‚­‚¾‚³‚¢B", 16, "ƒGƒ‰["
     wb.Close False : xl.Quit : WScript.Quit
 End If
 On Error GoTo 0
 
-' ---- æ¨™æº–ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ« ParseSupportReaction è¿½åŠ  ----
+' ---- •W€ƒ‚ƒWƒ…[ƒ‹ ParseSupportReaction ’Ç‰Á ----
 On Error Resume Next
 wb.VBProject.VBComponents.Remove wb.VBProject.VBComponents("ParseSupportReaction")
 On Error GoTo 0
@@ -61,7 +61,7 @@ With oMod.CodeModule
     .AddFromString BuildModuleCode()
 End With
 
-' ---- UserForm FormNodeSelect è¿½åŠ  ----
+' ---- UserForm FormNodeSelect ’Ç‰Á ----
 On Error Resume Next
 wb.VBProject.VBComponents.Remove wb.VBProject.VBComponents("FormNodeSelect")
 On Error GoTo 0
@@ -69,68 +69,68 @@ On Error GoTo 0
 Dim oForm, oCtrl
 Set oForm = wb.VBProject.VBComponents.Add(3)  ' vbext_ct_MSForm
 oForm.Name = "FormNodeSelect"
-oForm.Properties("Caption")         = "ç¯€ç‚¹ç•ªå·é¸æŠ"
+oForm.Properties("Caption")         = "ß“_”Ô†‘I‘ğ"
 oForm.Properties("Width")           = 282
 oForm.Properties("Height")          = 372
 oForm.Properties("StartUpPosition") = 1       ' 1 = CenterOwner
 
-' ãƒ©ãƒ™ãƒ«
+' ƒ‰ƒxƒ‹
 Set oCtrl = oForm.Designer.Controls.Add("Forms.Label.1")
 oCtrl.Name    = "lblInstruction"
-oCtrl.Caption = "è»¢è¨˜ã™ã‚‹ç¯€ç‚¹ç•ªå·ã‚’é¸æŠã—ã¦ãã ã•ã„ï¼ˆè¤‡æ•°é¸æŠå¯ï¼‰"
+oCtrl.Caption = "“]‹L‚·‚éß“_”Ô†‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢i•¡”‘I‘ğ‰Âj"
 oCtrl.Left = 6 : oCtrl.Top = 6 : oCtrl.Width = 264 : oCtrl.Height = 18
 
-' ãƒªã‚¹ãƒˆãƒœãƒƒã‚¯ã‚¹ï¼ˆMultiSelect = 1 : fmMultiSelectMultiï¼‰
+' ƒŠƒXƒgƒ{ƒbƒNƒXiMultiSelect = 1 : fmMultiSelectMultij
 Set oCtrl = oForm.Designer.Controls.Add("Forms.ListBox.1")
 oCtrl.Name        = "lstNodes"
 oCtrl.Left        = 6 : oCtrl.Top = 30 : oCtrl.Width = 264 : oCtrl.Height = 246
 oCtrl.MultiSelect = 1
 
-' OK ãƒœã‚¿ãƒ³
+' OK ƒ{ƒ^ƒ“
 Set oCtrl = oForm.Designer.Controls.Add("Forms.CommandButton.1")
 oCtrl.Name    = "btnOK"
 oCtrl.Caption = "OK"
 oCtrl.Left    = 60 : oCtrl.Top = 288 : oCtrl.Width = 72 : oCtrl.Height = 24
 
-' ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³
+' ƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“
 Set oCtrl = oForm.Designer.Controls.Add("Forms.CommandButton.1")
 oCtrl.Name    = "btnCancel"
-oCtrl.Caption = "ã‚­ãƒ£ãƒ³ã‚»ãƒ«"
+oCtrl.Caption = "ƒLƒƒƒ“ƒZƒ‹"
 oCtrl.Left    = 156 : oCtrl.Top = 288 : oCtrl.Width = 90 : oCtrl.Height = 24
 
-' ãƒ•ã‚©ãƒ¼ãƒ ã‚¤ãƒ™ãƒ³ãƒˆã‚³ãƒ¼ãƒ‰
+' ƒtƒH[ƒ€ƒCƒxƒ“ƒgƒR[ƒh
 With oForm.CodeModule
     If .CountOfLines > 0 Then .DeleteLines 1, .CountOfLines
     .AddFromString BuildFormCode()
 End With
 
-' ---- ä¿å­˜ã—ã¦å®Œäº† ----
+' ---- •Û‘¶‚µ‚ÄŠ®—¹ ----
 wb.Save
 xl.Visible = True
 
-MsgBox "ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å®Œäº†ã—ã¾ã—ãŸã€‚" & vbCrLf & vbCrLf & _
+MsgBox "ƒZƒbƒgƒAƒbƒvŠ®—¹‚µ‚Ü‚µ‚½B" & vbCrLf & vbCrLf & _
        savePath & vbCrLf & vbCrLf & _
-       "Alt+F8 ã‹ã‚‰ä»¥ä¸‹ã®ãƒã‚¯ãƒ­ã‚’å®Ÿè¡Œã§ãã¾ã™ï¼š" & vbCrLf & _
-       "  ParseSupportReaction  â€¦ txt ã‚’å…¨è¡Œå¤‰æ›ã—ã¦ã‚·ãƒ¼ãƒˆã¸å‡ºåŠ›" & vbCrLf & _
-       "  FilterByNode          â€¦ æ—¢å­˜ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ç¯€ç‚¹ç•ªå·ã§çµã‚Šè¾¼ã¿" & vbCrLf & _
-       "  ParseAndSelectNodes   â€¦ txt èª­è¾¼ â†’ ãƒ•ã‚©ãƒ¼ãƒ ã§ç¯€ç‚¹é¸æŠ â†’ è»¢è¨˜", _
-       64, "SupportReaction ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—"
+       "Alt+F8 ‚©‚çˆÈ‰º‚Ìƒ}ƒNƒ‚ğÀs‚Å‚«‚Ü‚·F" & vbCrLf & _
+       "  ParseSupportReaction  c txt ‚ğ‘Ss•ÏŠ·‚µ‚ÄƒV[ƒg‚Öo—Í" & vbCrLf & _
+       "  FilterByNode          c Šù‘¶ƒe[ƒuƒ‹‚©‚çß“_”Ô†‚Åi‚è‚İ" & vbCrLf & _
+       "  ParseAndSelectNodes   c txt “Ç ¨ ƒtƒH[ƒ€‚Åß“_‘I‘ğ ¨ “]‹L", _
+       64, "SupportReaction ƒZƒbƒgƒAƒbƒv"
 
 '=================================================================
-' ãƒ˜ãƒ«ãƒ‘ãƒ¼ï¼šæ”¹è¡Œä»˜ãè¡Œè¿½åŠ 
+' ƒwƒ‹ƒp[F‰üs•t‚«s’Ç‰Á
 '=================================================================
 Function L(s)
     L = s & vbCrLf
 End Function
 
 '=================================================================
-' VBA ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚³ãƒ¼ãƒ‰æœ¬ä½“
-' ã‚³ãƒ¼ãƒ‰ä¸­ã® | ã¯æœ€å¾Œã« Chr(34) ã¸ç½®æ›ï¼ˆãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆä»£æ›¿ï¼‰
+' VBA ƒ‚ƒWƒ…[ƒ‹ƒR[ƒh–{‘Ì
+' ƒR[ƒh’†‚Ì | ‚ÍÅŒã‚É Chr(34) ‚Ö’uŠ·iƒ_ƒuƒ‹ƒNƒH[ƒg‘ã‘Öj
 '=================================================================
 Function BuildModuleCode()
     Dim c : c = ""
 
-    '--- Option Explicit & Type å®£è¨€ ---
+    '--- Option Explicit & Type éŒ¾ ---
     c = c & L("Option Explicit")
     c = c & L("")
     c = c & L("Private Type ReactionRow")
@@ -166,20 +166,20 @@ Function BuildModuleCode()
     c = c & L("")
     c = c & L("    Dim fd As FileDialog")
     c = c & L("    Set fd = Application.FileDialog(msoFileDialogFilePicker)")
-    c = c & L("    fd.Title = |æ”¯ç‚¹ååŠ›ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠã—ã¦ãã ã•ã„|")
+    c = c & L("    fd.Title = |x“_”½—ÍƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢|")
     c = c & L("    fd.Filters.Clear")
-    c = c & L("    fd.Filters.Add |ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«|, |*.txt|")
+    c = c & L("    fd.Filters.Add |ƒeƒLƒXƒgƒtƒ@ƒCƒ‹|, |*.txt|")
     c = c & L("    fd.AllowMultiSelect = False")
     c = c & L("    If fd.Show <> True Then Exit Sub")
     c = c & L("    filePath = fd.SelectedItems(1)")
     c = c & L("")
-    c = c & L("    sheetName = |æ”¯ç‚¹ååŠ›_| & Format(Now, |YYYYMMDD_HHMMSS|)")
+    c = c & L("    sheetName = |x“_”½—Í_| & Format(Now, |YYYYMMDD_HHMMSS|)")
     c = c & L("    Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))")
     c = c & L("    ws.Name = sheetName")
     c = c & L("")
-    c = c & L("    ws.Cells(1, 1).Value = |è·é‡ç•ªå·|")
-    c = c & L("    ws.Cells(1, 2).Value = |è·é‡åç§°|")
-    c = c & L("    ws.Cells(1, 3).Value = |ç¯€ç‚¹ç•ªå·|")
+    c = c & L("    ws.Cells(1, 1).Value = |‰×d”Ô†|")
+    c = c & L("    ws.Cells(1, 2).Value = |‰×d–¼Ì|")
+    c = c & L("    ws.Cells(1, 3).Value = |ß“_”Ô†|")
     c = c & L("    ws.Cells(1, 4).Value = |RX|")
     c = c & L("    ws.Cells(1, 5).Value = |RY|")
     c = c & L("    ws.Cells(1, 6).Value = |RZ|")
@@ -203,13 +203,13 @@ Function BuildModuleCode()
     c = c & L("        trimmedLine = Trim(line)")
     c = c & L("        If Len(trimmedLine) = 0 Then GoTo NextLine")
     c = c & L("        If Left(trimmedLine, 5) = |=====| Then GoTo NextLine")
-    c = c & L("        If InStr(line, |è·é‡ç•ªå·|) > 0 Then")
+    c = c & L("        If InStr(line, |‰×d”Ô†|) > 0 Then")
     c = c & L("            loadNumber = ExtractLoadNumber(line)")
     c = c & L("            loadName = ExtractLoadName(line)")
     c = c & L("            GoTo NextLine")
     c = c & L("        End If")
-    c = c & L("        If InStr(trimmedLine, |ç¯€ç‚¹ç•ªå·|) > 0 Then GoTo NextLine")
-    c = c & L("        If Left(trimmedLine, 2) = |åˆè¨ˆ| Then")
+    c = c & L("        If InStr(trimmedLine, |ß“_”Ô†|) > 0 Then GoTo NextLine")
+    c = c & L("        If Left(trimmedLine, 2) = |‡Œv| Then")
     c = c & L("            parts = SplitNormalized(trimmedLine)")
     c = c & L("            If UBound(parts) >= 6 Then")
     c = c & L("                If Not ValidateNumericParts(parts, 1, 6, lineNum) Then GoTo NextLine")
@@ -219,10 +219,10 @@ Function BuildModuleCode()
     c = c & L("                rmx = CDbl(parts(4))")
     c = c & L("                rmy = CDbl(parts(5))")
     c = c & L("                rmz = CDbl(parts(6))")
-    c = c & L("                WriteRow ws, rowIdx, loadNumber, loadName, |åˆè¨ˆ|, rx, ry, rz, rmx, rmy, rmz")
+    c = c & L("                WriteRow ws, rowIdx, loadNumber, loadName, |‡Œv|, rx, ry, rz, rmx, rmy, rmz")
     c = c & L("                rowIdx = rowIdx + 1")
     c = c & L("            Else")
-    c = c & L("                Debug.Print |Warning: åˆè¨ˆè¡Œã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æ•°ä¸è¶³ (line | & lineNum & |): | & line")
+    c = c & L("                Debug.Print |Warning: ‡Œvs‚ÌƒtƒB[ƒ‹ƒh”•s‘« (line | & lineNum & |): | & line")
     c = c & L("            End If")
     c = c & L("            GoTo NextLine")
     c = c & L("        End If")
@@ -241,7 +241,7 @@ Function BuildModuleCode()
     c = c & L("                WriteRow ws, rowIdx, loadNumber, loadName, nodeStr, rx, ry, rz, rmx, rmy, rmz")
     c = c & L("                rowIdx = rowIdx + 1")
     c = c & L("            Else")
-    c = c & L("                Debug.Print |Warning: ç¯€ç‚¹è¡Œã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æ•°ä¸è¶³ (line | & lineNum & |): | & line")
+    c = c & L("                Debug.Print |Warning: ß“_s‚ÌƒtƒB[ƒ‹ƒh”•s‘« (line | & lineNum & |): | & line")
     c = c & L("            End If")
     c = c & L("        End If")
     c = c & L("NextLine:")
@@ -250,14 +250,14 @@ Function BuildModuleCode()
     c = c & L("")
     c = c & L("    Dim dataRows As Long")
     c = c & L("    dataRows = rowIdx - 2")
-    c = c & L("    MsgBox |å®Œäº†ã—ã¾ã—ãŸã€‚| & vbCrLf & _")
-    c = c & L("           |å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: | & sheetName & vbCrLf & _")
-    c = c & L("           |ãƒ‡ãƒ¼ã‚¿è¡Œæ•°: | & dataRows & | è¡Œ|, _")
+    c = c & L("    MsgBox |Š®—¹‚µ‚Ü‚µ‚½B| & vbCrLf & _")
+    c = c & L("           |o—ÍƒV[ƒg–¼: | & sheetName & vbCrLf & _")
+    c = c & L("           |ƒf[ƒ^s”: | & dataRows & | s|, _")
     c = c & L("           vbInformation, |ParseSupportReaction|")
     c = c & L("    Exit Sub")
     c = c & L("")
     c = c & L("FileOpenError:")
-    c = c & L("    MsgBox |ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸã€‚| & vbCrLf & Err.Description, vbCritical, |ParseSupportReaction|")
+    c = c & L("    MsgBox |ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½B| & vbCrLf & Err.Description, vbCritical, |ParseSupportReaction|")
     c = c & L("")
     c = c & L("End Sub")
 
@@ -275,14 +275,14 @@ Function BuildModuleCode()
     c = c & L("Private Function ExtractLoadNumber(ByVal line As String) As Long")
     c = c & L("    Dim pos As Long")
     c = c & L("    Dim token As String")
-    c = c & L("    pos = InStr(line, |è·é‡ç•ªå·|)")
+    c = c & L("    pos = InStr(line, |‰×d”Ô†|)")
     c = c & L("    If pos = 0 Then")
     c = c & L("        ExtractLoadNumber = 0")
     c = c & L("        Exit Function")
     c = c & L("    End If")
     c = c & L("    Dim sub1 As String")
     c = c & L("    Dim posName As Long")
-    c = c & L("    posName = InStr(line, |è·é‡åç§°|)")
+    c = c & L("    posName = InStr(line, |‰×d–¼Ì|)")
     c = c & L("    If posName > 0 Then")
     c = c & L("        sub1 = Mid(line, pos, posName - pos)")
     c = c & L("    Else")
@@ -307,7 +307,7 @@ Function BuildModuleCode()
     c = c & L("")
     c = c & L("Private Function ExtractLoadName(ByVal line As String) As String")
     c = c & L("    Dim pos As Long")
-    c = c & L("    pos = InStr(line, |è·é‡åç§°|)")
+    c = c & L("    pos = InStr(line, |‰×d–¼Ì|)")
     c = c & L("    If pos = 0 Then")
     c = c & L("        ExtractLoadName = ||")
     c = c & L("        Exit Function")
@@ -332,7 +332,7 @@ Function BuildModuleCode()
     c = c & L("    Dim i As Integer")
     c = c & L("    For i = fromIdx To toIdx")
     c = c & L("        If Not IsNumeric(parts(i)) Then")
-    c = c & L("            Debug.Print |Warning: æ•°å€¤å¤‰æ›å¤±æ•— parts(| & i & |)='| & parts(i) & |' (line | & lineNum & |)|")
+    c = c & L("            Debug.Print |Warning: ”’l•ÏŠ·¸”s parts(| & i & |)='| & parts(i) & |' (line | & lineNum & |)|")
     c = c & L("            ValidateNumericParts = False")
     c = c & L("            Exit Function")
     c = c & L("        End If")
@@ -355,8 +355,8 @@ Function BuildModuleCode()
     c = c & L("    Dim dstRow As Long")
     c = c & L("    Dim cellVal As String")
     c = c & L("")
-    c = c & L("    srcSheetName = InputBox(|æŠ½å‡ºå…ƒã®ã‚·ãƒ¼ãƒˆåã‚’å…¥åŠ›ã—ã¦ãã ã•ã„| & vbCrLf & _")
-    c = c & L("                            |ï¼ˆä¾‹ï¼šæ”¯ç‚¹ååŠ›_20260525_143022ï¼‰|, |FilterByNode|)")
+    c = c & L("    srcSheetName = InputBox(|’ŠoŒ³‚ÌƒV[ƒg–¼‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢| & vbCrLf & _")
+    c = c & L("                            |i—áFx“_”½—Í_20260525_143022j|, |FilterByNode|)")
     c = c & L("    If StrPtr(srcSheetName) = 0 Then Exit Sub")
     c = c & L("    If Trim(srcSheetName) = || Then Exit Sub")
     c = c & L("")
@@ -364,15 +364,15 @@ Function BuildModuleCode()
     c = c & L("    Set srcWs = ThisWorkbook.Worksheets(srcSheetName)")
     c = c & L("    On Error GoTo 0")
     c = c & L("    If srcWs Is Nothing Then")
-    c = c & L("        MsgBox |ã‚·ãƒ¼ãƒˆã€Œ| & srcSheetName & |ã€ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚|, vbCritical, |FilterByNode|")
+    c = c & L("        MsgBox |ƒV[ƒgu| & srcSheetName & |v‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB|, vbCritical, |FilterByNode|")
     c = c & L("        Exit Sub")
     c = c & L("    End If")
     c = c & L("")
-    c = c & L("    nodeInput = InputBox(|æŠ½å‡ºã™ã‚‹ç¯€ç‚¹ç•ªå·ã‚’ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§å…¥åŠ›ã—ã¦ãã ã•ã„| & vbCrLf & _")
-    c = c & L("                         |ï¼ˆä¾‹ï¼š 1,3,åˆè¨ˆã€€ã¾ãŸã¯ã€€åˆè¨ˆï¼‰|, |FilterByNode|)")
+    c = c & L("    nodeInput = InputBox(|’Šo‚·‚éß“_”Ô†‚ğƒJƒ“ƒ}‹æØ‚è‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢| & vbCrLf & _")
+    c = c & L("                         |i—áF 1,3,‡Œv@‚Ü‚½‚Í@‡Œvj|, |FilterByNode|)")
     c = c & L("    If StrPtr(nodeInput) = 0 Then Exit Sub")
     c = c & L("    If Trim(nodeInput) = || Then")
-    c = c & L("        MsgBox |ç¯€ç‚¹ç•ªå·ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚|, vbExclamation, |FilterByNode|")
+    c = c & L("        MsgBox |ß“_”Ô†‚ª“ü—Í‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB|, vbExclamation, |FilterByNode|")
     c = c & L("        Exit Sub")
     c = c & L("    End If")
     c = c & L("")
@@ -381,7 +381,7 @@ Function BuildModuleCode()
     c = c & L("        nodeTokens(i) = Trim(nodeTokens(i))")
     c = c & L("    Next i")
     c = c & L("")
-    c = c & L("    dstSheetName = |æŠ½å‡º_| & Format(Now, |YYYYMMDD_HHMMSS|)")
+    c = c & L("    dstSheetName = |’Šo_| & Format(Now, |YYYYMMDD_HHMMSS|)")
     c = c & L("    Set dstWs = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))")
     c = c & L("    dstWs.Name = dstSheetName")
     c = c & L("    dstWs.Rows(1).Value = srcWs.Rows(1).Value")
@@ -401,12 +401,12 @@ Function BuildModuleCode()
     c = c & L("    Next i")
     c = c & L("")
     c = c & L("    If extractCount = 0 Then")
-    c = c & L("        MsgBox |è©²å½“ã™ã‚‹ç¯€ç‚¹ç•ªå·ã®è¡ŒãŒã‚ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚| & vbCrLf & _")
-    c = c & L("               |å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: | & dstSheetName, vbExclamation, |FilterByNode|")
+    c = c & L("        MsgBox |ŠY“–‚·‚éß“_”Ô†‚Ìs‚ª‚ ‚è‚Ü‚¹‚ñ‚Å‚µ‚½B| & vbCrLf & _")
+    c = c & L("               |o—ÍƒV[ƒg–¼: | & dstSheetName, vbExclamation, |FilterByNode|")
     c = c & L("    Else")
-    c = c & L("        MsgBox |å®Œäº†ã—ã¾ã—ãŸã€‚| & vbCrLf & _")
-    c = c & L("               |å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: | & dstSheetName & vbCrLf & _")
-    c = c & L("               |æŠ½å‡ºè¡Œæ•°: | & extractCount & | è¡Œ|, vbInformation, |FilterByNode|")
+    c = c & L("        MsgBox |Š®—¹‚µ‚Ü‚µ‚½B| & vbCrLf & _")
+    c = c & L("               |o—ÍƒV[ƒg–¼: | & dstSheetName & vbCrLf & _")
+    c = c & L("               |’Šos”: | & extractCount & | s|, vbInformation, |FilterByNode|")
     c = c & L("    End If")
     c = c & L("")
     c = c & L("End Sub")
@@ -430,9 +430,9 @@ Function BuildModuleCode()
     c = c & L("")
     c = c & L("    Dim fd As FileDialog")
     c = c & L("    Set fd = Application.FileDialog(msoFileDialogFilePicker)")
-    c = c & L("    fd.Title = |æ”¯ç‚¹ååŠ›ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠã—ã¦ãã ã•ã„|")
+    c = c & L("    fd.Title = |x“_”½—ÍƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢|")
     c = c & L("    fd.Filters.Clear")
-    c = c & L("    fd.Filters.Add |ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«|, |*.txt|")
+    c = c & L("    fd.Filters.Add |ƒeƒLƒXƒgƒtƒ@ƒCƒ‹|, |*.txt|")
     c = c & L("    fd.AllowMultiSelect = False")
     c = c & L("    If fd.Show <> True Then Exit Sub")
     c = c & L("    Dim filePath As String")
@@ -468,24 +468,24 @@ Function BuildModuleCode()
     c = c & L("        trimmedLine = Trim(line)")
     c = c & L("        If Len(trimmedLine) = 0 Then GoTo Skip1")
     c = c & L("        If Left(trimmedLine, 5) = |=====| Then GoTo Skip1")
-    c = c & L("        If InStr(line, |è·é‡ç•ªå·|) > 0 Then")
+    c = c & L("        If InStr(line, |‰×d”Ô†|) > 0 Then")
     c = c & L("            loadNumber = ExtractLoadNumber(line)")
     c = c & L("            loadName = ExtractLoadName(line)")
     c = c & L("            GoTo Skip1")
     c = c & L("        End If")
-    c = c & L("        If InStr(trimmedLine, |ç¯€ç‚¹ç•ªå·|) > 0 Then GoTo Skip1")
-    c = c & L("        If Left(trimmedLine, 2) = |åˆè¨ˆ| Then")
+    c = c & L("        If InStr(trimmedLine, |ß“_”Ô†|) > 0 Then GoTo Skip1")
+    c = c & L("        If Left(trimmedLine, 2) = |‡Œv| Then")
     c = c & L("            parts = SplitNormalized(trimmedLine)")
     c = c & L("            If UBound(parts) < 6 Then")
-    c = c & L("                Debug.Print |Warning: åˆè¨ˆè¡Œãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸è¶³ (line | & lineNum & |)|")
+    c = c & L("                Debug.Print |Warning: ‡ŒvsƒtƒB[ƒ‹ƒh•s‘« (line | & lineNum & |)|")
     c = c & L("                GoTo Skip1")
     c = c & L("            End If")
     c = c & L("            If Not ValidateNumericParts(parts, 1, 6, lineNum) Then GoTo Skip1")
-    c = c & L("            nodeStr = |åˆè¨ˆ|")
+    c = c & L("            nodeStr = |‡Œv|")
     c = c & L("        ElseIf IsNumeric(Left(trimmedLine, InStr(trimmedLine & | |, | |) - 1)) Then")
     c = c & L("            parts = SplitNormalized(trimmedLine)")
     c = c & L("            If UBound(parts) < 6 Then")
-    c = c & L("                Debug.Print |Warning: ç¯€ç‚¹è¡Œãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸è¶³ (line | & lineNum & |)|")
+    c = c & L("                Debug.Print |Warning: ß“_sƒtƒB[ƒ‹ƒh•s‘« (line | & lineNum & |)|")
     c = c & L("                GoTo Skip1")
     c = c & L("            End If")
     c = c & L("            If Not IsNumeric(parts(0)) Then GoTo Skip1")
@@ -516,7 +516,7 @@ Function BuildModuleCode()
     c = c & L("    Close #fileNum")
     c = c & L("")
     c = c & L("    If rowCount = 0 Then")
-    c = c & L("        MsgBox |ãƒ‡ãƒ¼ã‚¿è¡ŒãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚|, vbExclamation, |ParseAndSelectNodes|")
+    c = c & L("        MsgBox |ƒf[ƒ^s‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B|, vbExclamation, |ParseAndSelectNodes|")
     c = c & L("        Exit Sub")
     c = c & L("    End If")
     c = c & L("")
@@ -546,18 +546,18 @@ Function BuildModuleCode()
     c = c & L("    Unload frm")
     c = c & L("")
     c = c & L("    If selCount = 0 Then")
-    c = c & L("        MsgBox |ç¯€ç‚¹ç•ªå·ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚|, vbExclamation, |ParseAndSelectNodes|")
+    c = c & L("        MsgBox |ß“_”Ô†‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB|, vbExclamation, |ParseAndSelectNodes|")
     c = c & L("        Exit Sub")
     c = c & L("    End If")
     c = c & L("")
     c = c & L("    Dim ws As Worksheet")
     c = c & L("    Dim sheetName As String")
-    c = c & L("    sheetName = |æ”¯ç‚¹ååŠ›_| & Format(Now, |YYYYMMDD_HHMMSS|)")
+    c = c & L("    sheetName = |x“_”½—Í_| & Format(Now, |YYYYMMDD_HHMMSS|)")
     c = c & L("    Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))")
     c = c & L("    ws.Name = sheetName")
     c = c & L("")
     c = c & L("    Dim headers As Variant")
-    c = c & L("    headers = Array(|è·é‡ç•ªå·|, |è·é‡åç§°|, |ç¯€ç‚¹ç•ªå·|, |RX|, |RY|, |RZ|, |RMX|, |RMY|, |RMZ|)")
+    c = c & L("    headers = Array(|‰×d”Ô†|, |‰×d–¼Ì|, |ß“_”Ô†|, |RX|, |RY|, |RZ|, |RMX|, |RMY|, |RMZ|)")
     c = c & L("    Dim ci As Integer")
     c = c & L("    For ci = 0 To 8")
     c = c & L("        ws.Cells(1, ci + 1).Value = headers(ci)")
@@ -585,13 +585,13 @@ Function BuildModuleCode()
     c = c & L("        End If")
     c = c & L("    Next k")
     c = c & L("")
-    c = c & L("    MsgBox |å®Œäº†ã—ã¾ã—ãŸã€‚| & vbCrLf & _")
-    c = c & L("           |å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: | & sheetName & vbCrLf & _")
-    c = c & L("           |è»¢è¨˜è¡Œæ•°: | & (rowIdx - 2) & | è¡Œ|, vbInformation, |ParseAndSelectNodes|")
+    c = c & L("    MsgBox |Š®—¹‚µ‚Ü‚µ‚½B| & vbCrLf & _")
+    c = c & L("           |o—ÍƒV[ƒg–¼: | & sheetName & vbCrLf & _")
+    c = c & L("           |“]‹Ls”: | & (rowIdx - 2) & | s|, vbInformation, |ParseAndSelectNodes|")
     c = c & L("    Exit Sub")
     c = c & L("")
     c = c & L("FileOpenError2:")
-    c = c & L("    MsgBox |ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸã€‚| & vbCrLf & Err.Description, vbCritical, |ParseAndSelectNodes|")
+    c = c & L("    MsgBox |ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½B| & vbCrLf & Err.Description, vbCritical, |ParseAndSelectNodes|")
     c = c & L("")
     c = c & L("End Sub")
 
@@ -617,12 +617,12 @@ Function BuildModuleCode()
     c = c & L("    ws.Cells(rowIdx, 9).Value = rmz")
     c = c & L("End Sub")
 
-    ' | â†’ Chr(34) ã«ç½®æ›ã—ã¦ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã‚’å¾©å…ƒ
+    ' | ¨ Chr(34) ‚É’uŠ·‚µ‚Äƒ_ƒuƒ‹ƒNƒH[ƒg‚ğ•œŒ³
     BuildModuleCode = Replace(c, "|", Chr(34))
 End Function
 
 '=================================================================
-' FormNodeSelect ã‚¤ãƒ™ãƒ³ãƒˆã‚³ãƒ¼ãƒ‰
+' FormNodeSelect ƒCƒxƒ“ƒgƒR[ƒh
 '=================================================================
 Function BuildFormCode()
     Dim c : c = ""
