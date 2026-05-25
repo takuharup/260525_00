@@ -1,6 +1,19 @@
 Attribute VB_Name = "ParseSupportReaction"
 Option Explicit
 
+' 1パースで収集する行データ
+Private Type ReactionRow
+    LoadNo   As Long
+    LoadName As String
+    NodeNo   As String
+    RX       As Double
+    RY       As Double
+    RZ       As Double
+    RMX      As Double
+    RMY      As Double
+    RMZ      As Double
+End Type
+
 Public Sub ParseSupportReaction()
 
     Dim filePath As String
@@ -321,6 +334,191 @@ Private Function IsInList(ByVal target As String, ByRef list() As String) As Boo
     Next i
     IsInList = False
 End Function
+
+' -------------------------------------------------------
+' txtを1パースしてフォームで節点選択 → 新規シートへ転記
+' -------------------------------------------------------
+Public Sub ParseAndSelectNodes()
+
+    ' --- ファイル選択 ---
+    Dim fd As FileDialog
+    Set fd = Application.FileDialog(msoFileDialogFilePicker)
+    fd.Title = "支点反力テキストファイルを選択してください"
+    fd.Filters.Clear
+    fd.Filters.Add "テキストファイル", "*.txt"
+    fd.AllowMultiSelect = False
+    If fd.Show <> True Then Exit Sub
+    Dim filePath As String
+    filePath = fd.SelectedItems(1)
+
+    ' --- 第1パース：全行収集 & 節点番号ユニークリスト ---
+    Dim rows()    As ReactionRow
+    Dim rowCount  As Long
+    Dim nodeList() As String
+    Dim nodeCount  As Long
+    rowCount = 0
+    nodeCount = 0
+
+    Dim fileNum As Integer
+    fileNum = FreeFile
+    On Error GoTo FileOpenError2
+    Open filePath For Input As #fileNum
+    On Error GoTo 0
+
+    Dim line As String
+    Dim trimmedLine As String
+    Dim parts() As String
+    Dim loadNumber As Long
+    Dim loadName As String
+    Dim lineNum As Long
+    Dim nodeStr As String
+    Dim rx As Double, ry As Double, rz As Double
+    Dim rmx As Double, rmy As Double, rmz As Double
+    lineNum = 0
+    loadNumber = 0
+    loadName = ""
+
+    Do While Not EOF(fileNum)
+        Line Input #fileNum, line
+        lineNum = lineNum + 1
+        trimmedLine = Trim(line)
+
+        If Len(trimmedLine) = 0 Then GoTo Skip1
+        If Left(trimmedLine, 5) = "=====" Then GoTo Skip1
+        If InStr(line, "荷重番号") > 0 Then
+            loadNumber = ExtractLoadNumber(line)
+            loadName = ExtractLoadName(line)
+            GoTo Skip1
+        End If
+        If InStr(trimmedLine, "節点番号") > 0 Then GoTo Skip1
+
+        If Left(trimmedLine, 2) = "合計" Then
+            parts = SplitNormalized(trimmedLine)
+            If UBound(parts) < 6 Then
+                Debug.Print "Warning: 合計行フィールド不足 (line " & lineNum & ")"
+                GoTo Skip1
+            End If
+            If Not ValidateNumericParts(parts, 1, 6, lineNum) Then GoTo Skip1
+            nodeStr = "合計"
+        ElseIf IsNumeric(Left(trimmedLine, InStr(trimmedLine & " ", " ") - 1)) Then
+            parts = SplitNormalized(trimmedLine)
+            If UBound(parts) < 6 Then
+                Debug.Print "Warning: 節点行フィールド不足 (line " & lineNum & ")"
+                GoTo Skip1
+            End If
+            If Not IsNumeric(parts(0)) Then GoTo Skip1
+            If Not ValidateNumericParts(parts, 1, 6, lineNum) Then GoTo Skip1
+            nodeStr = parts(0)
+        Else
+            GoTo Skip1
+        End If
+
+        rx  = CDbl(parts(1)) : ry  = CDbl(parts(2)) : rz  = CDbl(parts(3))
+        rmx = CDbl(parts(4)) : rmy = CDbl(parts(5)) : rmz = CDbl(parts(6))
+
+        ReDim Preserve rows(rowCount)
+        rows(rowCount).LoadNo   = loadNumber
+        rows(rowCount).LoadName = loadName
+        rows(rowCount).NodeNo   = nodeStr
+        rows(rowCount).RX  = rx  : rows(rowCount).RY  = ry  : rows(rowCount).RZ  = rz
+        rows(rowCount).RMX = rmx : rows(rowCount).RMY = rmy : rows(rowCount).RMZ = rmz
+        rowCount = rowCount + 1
+
+        ' 出現順ユニークリストへ追加
+        Dim alreadyExists As Boolean
+        alreadyExists = False
+        If nodeCount > 0 Then alreadyExists = IsInList(nodeStr, nodeList)
+        If Not alreadyExists Then
+            ReDim Preserve nodeList(nodeCount)
+            nodeList(nodeCount) = nodeStr
+            nodeCount = nodeCount + 1
+        End If
+Skip1:
+    Loop
+    Close #fileNum
+
+    If rowCount = 0 Then
+        MsgBox "データ行が見つかりませんでした。", vbExclamation, "ParseAndSelectNodes"
+        Exit Sub
+    End If
+
+    ' --- FormNodeSelect で節点選択 ---
+    Dim frm As FormNodeSelect
+    Set frm = New FormNodeSelect
+    Dim j As Integer
+    For j = 0 To nodeCount - 1
+        frm.lstNodes.AddItem nodeList(j)
+    Next j
+    frm.Show
+
+    If frm.Tag <> "OK" Then
+        Unload frm
+        Exit Sub
+    End If
+
+    Dim selectedNodes() As String
+    Dim selCount As Integer
+    selCount = 0
+    For j = 0 To frm.lstNodes.ListCount - 1
+        If frm.lstNodes.Selected(j) Then
+            ReDim Preserve selectedNodes(selCount)
+            selectedNodes(selCount) = frm.lstNodes.List(j)
+            selCount = selCount + 1
+        End If
+    Next j
+    Unload frm
+
+    If selCount = 0 Then
+        MsgBox "節点番号が選択されていません。", vbExclamation, "ParseAndSelectNodes"
+        Exit Sub
+    End If
+
+    ' --- 新規シート作成 & ヘッダー ---
+    Dim ws As Worksheet
+    Dim sheetName As String
+    sheetName = "支点反力_" & Format(Now, "YYYYMMDD_HHMMSS")
+    Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+    ws.Name = sheetName
+
+    Dim headers As Variant
+    headers = Array("荷重番号", "荷重名称", "節点番号", "RX", "RY", "RZ", "RMX", "RMY", "RMZ")
+    Dim c As Integer
+    For c = 0 To 8
+        ws.Cells(1, c + 1).Value = headers(c)
+    Next c
+
+    ' --- 転記 ---
+    Dim rowIdx As Long
+    rowIdx = 2
+    Dim k As Long
+    For k = 0 To rowCount - 1
+        If IsInList(rows(k).NodeNo, selectedNodes) Then
+            ws.Cells(rowIdx, 1).Value = rows(k).LoadNo
+            ws.Cells(rowIdx, 2).Value = rows(k).LoadName
+            If IsNumeric(rows(k).NodeNo) Then
+                ws.Cells(rowIdx, 3).Value = CLng(rows(k).NodeNo)
+            Else
+                ws.Cells(rowIdx, 3).Value = rows(k).NodeNo
+            End If
+            ws.Cells(rowIdx, 4).Value = rows(k).RX
+            ws.Cells(rowIdx, 5).Value = rows(k).RY
+            ws.Cells(rowIdx, 6).Value = rows(k).RZ
+            ws.Cells(rowIdx, 7).Value = rows(k).RMX
+            ws.Cells(rowIdx, 8).Value = rows(k).RMY
+            ws.Cells(rowIdx, 9).Value = rows(k).RMZ
+            rowIdx = rowIdx + 1
+        End If
+    Next k
+
+    MsgBox "完了しました。" & vbCrLf & _
+           "出力シート名: " & sheetName & vbCrLf & _
+           "転記行数: " & (rowIdx - 2) & " 行", vbInformation, "ParseAndSelectNodes"
+    Exit Sub
+
+FileOpenError2:
+    MsgBox "ファイルを開けませんでした。" & vbCrLf & Err.Description, vbCritical, "ParseAndSelectNodes"
+
+End Sub
 
 ' -------------------------------------------------------
 ' 1行分をシートへ書き込む
