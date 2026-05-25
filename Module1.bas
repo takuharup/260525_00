@@ -14,7 +14,7 @@ Private Type ReactionRow
 End Type
 
 ' -------------------------------------------------------
-' UserForm1ã‚’VBAãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã¸æ’ä¹…ä½œæˆï¼ˆimportå¾Œã«1å›ã ã‘å®Ÿè¡Œï¼‰
+' UserForm1‚ğVBAƒvƒƒWƒFƒNƒg‚ÖP‹vì¬iimportŒã‚É1‰ñ‚¾‚¯Àsj
 ' -------------------------------------------------------
 Public Sub CreateUserForm()
 
@@ -29,24 +29,24 @@ Public Sub CreateUserForm()
     On Error Resume Next
     Set vbc = vbp.VBComponents.Add(3)   ' vbext_ct_MSForm
     If Err.Number <> 0 Then
-        MsgBox "VBAãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ãŒè¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚" & vbCrLf & _
-               "ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€â†’ã€Œã‚ªãƒ—ã‚·ãƒ§ãƒ³ã€â†’ã€Œãƒˆãƒ©ã‚¹ãƒˆã‚»ãƒ³ã‚¿ãƒ¼ã€â†’" & vbCrLf & _
-               "ã€Œãƒˆãƒ©ã‚¹ãƒˆã‚»ãƒ³ã‚¿ãƒ¼ã®è¨­å®šã€â†’ã€Œãƒã‚¯ãƒ­ã®è¨­å®šã€ã§" & vbCrLf & _
-               "ã€ŒVBAãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ãƒ¢ãƒ‡ãƒ«ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’ä¿¡é ¼ã™ã‚‹ã€" & vbCrLf & _
-               "ã‚’æœ‰åŠ¹ã«ã—ã¦ã‹ã‚‰å†å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚", vbCritical, "CreateUserForm"
+        MsgBox "VBAƒvƒƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ª‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB" & vbCrLf & _
+               "uƒtƒ@ƒCƒ‹v¨uƒIƒvƒVƒ‡ƒ“v¨uƒgƒ‰ƒXƒgƒZƒ“ƒ^[v¨" & vbCrLf & _
+               "uƒgƒ‰ƒXƒgƒZƒ“ƒ^[‚Ìİ’èv¨uƒ}ƒNƒ‚Ìİ’èv‚Å" & vbCrLf & _
+               "uVBAƒvƒƒWƒFƒNƒg ƒIƒuƒWƒFƒNƒg ƒ‚ƒfƒ‹‚Ö‚ÌƒAƒNƒZƒX‚ğM—Š‚·‚év" & vbCrLf & _
+               "‚ğ—LŒø‚É‚µ‚Ä‚©‚çÄÀs‚µ‚Ä‚­‚¾‚³‚¢B", vbCritical, "CreateUserForm"
         Exit Sub
     End If
     On Error GoTo 0
 
     vbc.Name = "UserForm1"
-    vbc.Properties("Caption")         = "ç¯€ç‚¹ç•ªå·é¸æŠ"
+    vbc.Properties("Caption")         = "ß“_”Ô†‘I‘ğ"
     vbc.Properties("Width")           = 282
     vbc.Properties("Height")          = 372
     vbc.Properties("StartUpPosition") = 1
 
     Dim lbl As Object
     Set lbl = vbc.Designer.Controls.Add("Forms.Label.1")
-    lbl.Caption = "è»¢è¨˜ã™ã‚‹ç¯€ç‚¹ç•ªå·ã‚’é¸æŠã—ã¦ãã ã•ã„ï¼ˆè¤‡æ•°é¸æŠå¯ï¼‰"
+    lbl.Caption = "“]‹L‚·‚éß“_”Ô†‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢i•¡”‘I‘ğ‰Âj"
     lbl.Left = 6 : lbl.Top = 6 : lbl.Width = 264 : lbl.Height = 18
 
     Dim lst As Object
@@ -64,7 +64,7 @@ Public Sub CreateUserForm()
     Dim btnCancel As Object
     Set btnCancel = vbc.Designer.Controls.Add("Forms.CommandButton.1")
     btnCancel.Name = "btnCancel"
-    btnCancel.Caption = "ã‚­ãƒ£ãƒ³ã‚»ãƒ«"
+    btnCancel.Caption = "ƒLƒƒƒ“ƒZƒ‹"
     btnCancel.Left = 156 : btnCancel.Top = 288 : btnCancel.Width = 90 : btnCancel.Height = 24
 
     Dim fc As String
@@ -82,13 +82,13 @@ Public Sub CreateUserForm()
     vbc.CodeModule.AddFromString fc
 
     ThisWorkbook.Save
-    MsgBox "UserForm1 ã‚’ä½œæˆã—ã¾ã—ãŸã€‚æ¬¡å›ã‹ã‚‰ ParseAndSelectNodes ã‚’ãã®ã¾ã¾å®Ÿè¡Œã§ãã¾ã™ã€‚", _
+    MsgBox "UserForm1 ‚ğì¬‚µ‚Ü‚µ‚½BŸ‰ñ‚©‚ç ParseAndSelectNodes ‚ğ‚»‚Ì‚Ü‚ÜÀs‚Å‚«‚Ü‚·B", _
            vbInformation, "CreateUserForm"
 
 End Sub
 
 ' -------------------------------------------------------
-' TXTã‚’è§£æã—ã¦æ–°è¦ã‚·ãƒ¼ãƒˆã¸å‡ºåŠ›
+' TXT‚ğ‰ğÍ‚µ‚ÄV‹KƒV[ƒg‚Öo—Í
 ' -------------------------------------------------------
 Public Sub ParseSupportReaction()
 
@@ -111,21 +111,21 @@ Public Sub ParseSupportReaction()
 
     Dim fd As FileDialog
     Set fd = Application.FileDialog(msoFileDialogFilePicker)
-    fd.Title = "æ”¯ç‚¹ååŠ›ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠã—ã¦ãã ã•ã„"
+    fd.Title = "x“_”½—ÍƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢"
     fd.Filters.Clear
-    fd.Filters.Add "ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«", "*.txt"
+    fd.Filters.Add "ƒeƒLƒXƒgƒtƒ@ƒCƒ‹", "*.txt"
     fd.AllowMultiSelect = False
 
     If fd.Show <> True Then Exit Sub
     filePath = fd.SelectedItems(1)
 
-    sheetName = "æ”¯ç‚¹ååŠ›_" & Format(Now, "YYYYMMDD_HHMMSS")
+    sheetName = "x“_”½—Í_" & Format(Now, "YYYYMMDD_HHMMSS")
     Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
     ws.Name = sheetName
 
-    ws.Cells(1, 1).Value = "è·é‡ç•ªå·"
-    ws.Cells(1, 2).Value = "è·é‡åç§°"
-    ws.Cells(1, 3).Value = "ç¯€ç‚¹ç•ªå·"
+    ws.Cells(1, 1).Value = "‰×d”Ô†"
+    ws.Cells(1, 2).Value = "‰×d–¼Ì"
+    ws.Cells(1, 3).Value = "ß“_”Ô†"
     ws.Cells(1, 4).Value = "RX"
     ws.Cells(1, 5).Value = "RY"
     ws.Cells(1, 6).Value = "RZ"
@@ -151,15 +151,15 @@ Public Sub ParseSupportReaction()
         If Len(trimmedLine) = 0 Then GoTo NextLine
         If Left(trimmedLine, 5) = "=====" Then GoTo NextLine
 
-        If InStr(line, "è·é‡ç•ªå·") > 0 Then
+        If InStr(line, "‰×d”Ô†") > 0 Then
             loadNumber = ExtractLoadNumber(line)
             loadName = ExtractLoadName(line)
             GoTo NextLine
         End If
 
-        If InStr(trimmedLine, "ç¯€ç‚¹ç•ªå·") > 0 Then GoTo NextLine
+        If InStr(trimmedLine, "ß“_”Ô†") > 0 Then GoTo NextLine
 
-        If Left(trimmedLine, 2) = "åˆè¨ˆ" Then
+        If Left(trimmedLine, 2) = "‡Œv" Then
             parts = SplitNormalized(trimmedLine)
             If UBound(parts) >= 6 Then
                 If Not ValidateNumericParts(parts, 1, 6, lineNum) Then GoTo NextLine
@@ -169,10 +169,10 @@ Public Sub ParseSupportReaction()
                 rmx = CDbl(parts(4))
                 rmy = CDbl(parts(5))
                 rmz = CDbl(parts(6))
-                WriteRow ws, rowIdx, loadNumber, loadName, "åˆè¨ˆ", rx, ry, rz, rmx, rmy, rmz
+                WriteRow ws, rowIdx, loadNumber, loadName, "‡Œv", rx, ry, rz, rmx, rmy, rmz
                 rowIdx = rowIdx + 1
             Else
-                Debug.Print "Warning: åˆè¨ˆè¡Œã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æ•°ä¸è¶³ (line " & lineNum & "): " & line
+                Debug.Print "Warning: ‡Œvs‚ÌƒtƒB[ƒ‹ƒh”•s‘« (line " & lineNum & "): " & line
             End If
             GoTo NextLine
         End If
@@ -192,7 +192,7 @@ Public Sub ParseSupportReaction()
                 WriteRow ws, rowIdx, loadNumber, loadName, nodeStr, rx, ry, rz, rmx, rmy, rmz
                 rowIdx = rowIdx + 1
             Else
-                Debug.Print "Warning: ç¯€ç‚¹è¡Œã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æ•°ä¸è¶³ (line " & lineNum & "): " & line
+                Debug.Print "Warning: ß“_s‚ÌƒtƒB[ƒ‹ƒh”•s‘« (line " & lineNum & "): " & line
             End If
         End If
 
@@ -201,19 +201,19 @@ NextLine:
 
     Close #fileNum
 
-    MsgBox "å®Œäº†ã—ã¾ã—ãŸã€‚" & vbCrLf & _
-           "å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: " & sheetName & vbCrLf & _
-           "ãƒ‡ãƒ¼ã‚¿è¡Œæ•°: " & (rowIdx - 2) & " è¡Œ", _
+    MsgBox "Š®—¹‚µ‚Ü‚µ‚½B" & vbCrLf & _
+           "o—ÍƒV[ƒg–¼: " & sheetName & vbCrLf & _
+           "ƒf[ƒ^s”: " & (rowIdx - 2) & " s", _
            vbInformation, "ParseSupportReaction"
     Exit Sub
 
 FileOpenError:
-    MsgBox "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸã€‚" & vbCrLf & Err.Description, vbCritical, "ParseSupportReaction"
+    MsgBox "ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & Err.Description, vbCritical, "ParseSupportReaction"
 
 End Sub
 
 ' -------------------------------------------------------
-' æ—¢å­˜ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç¯€ç‚¹ç•ªå·ã§ãƒ•ã‚£ãƒ«ã‚¿ã—ã¦æ–°è¦ã‚·ãƒ¼ãƒˆã¸å‡ºåŠ›
+' Šù‘¶ƒe[ƒuƒ‹‚ğß“_”Ô†‚ÅƒtƒBƒ‹ƒ^‚µ‚ÄV‹KƒV[ƒg‚Öo—Í
 ' -------------------------------------------------------
 Public Sub FilterByNode()
 
@@ -230,8 +230,8 @@ Public Sub FilterByNode()
     Dim dstRow As Long
     Dim cellVal As String
 
-    srcSheetName = InputBox("æŠ½å‡ºå…ƒã®ã‚·ãƒ¼ãƒˆåã‚’å…¥åŠ›ã—ã¦ãã ã•ã„" & vbCrLf & _
-                            "ï¼ˆä¾‹ï¼šæ”¯ç‚¹ååŠ›_20260525_143022ï¼‰", "FilterByNode")
+    srcSheetName = InputBox("’ŠoŒ³‚ÌƒV[ƒg–¼‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢" & vbCrLf & _
+                            "i—áFx“_”½—Í_20260525_143022j", "FilterByNode")
     If StrPtr(srcSheetName) = 0 Then Exit Sub
     If Trim(srcSheetName) = "" Then Exit Sub
 
@@ -239,15 +239,15 @@ Public Sub FilterByNode()
     Set srcWs = ThisWorkbook.Worksheets(srcSheetName)
     On Error GoTo 0
     If srcWs Is Nothing Then
-        MsgBox "ã‚·ãƒ¼ãƒˆã€Œ" & srcSheetName & "ã€ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚", vbCritical, "FilterByNode"
+        MsgBox "ƒV[ƒgu" & srcSheetName & "v‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB", vbCritical, "FilterByNode"
         Exit Sub
     End If
 
-    nodeInput = InputBox("æŠ½å‡ºã™ã‚‹ç¯€ç‚¹ç•ªå·ã‚’ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§å…¥åŠ›ã—ã¦ãã ã•ã„" & vbCrLf & _
-                         "ï¼ˆä¾‹ï¼š 1,3,åˆè¨ˆã€€ã¾ãŸã¯ã€€åˆè¨ˆï¼‰", "FilterByNode")
+    nodeInput = InputBox("’Šo‚·‚éß“_”Ô†‚ğƒJƒ“ƒ}‹æØ‚è‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢" & vbCrLf & _
+                         "i—áF 1,3,‡Œv@‚Ü‚½‚Í@‡Œvj", "FilterByNode")
     If StrPtr(nodeInput) = 0 Then Exit Sub
     If Trim(nodeInput) = "" Then
-        MsgBox "ç¯€ç‚¹ç•ªå·ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚", vbExclamation, "FilterByNode"
+        MsgBox "ß“_”Ô†‚ª“ü—Í‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB", vbExclamation, "FilterByNode"
         Exit Sub
     End If
 
@@ -256,7 +256,7 @@ Public Sub FilterByNode()
         nodeTokens(i) = Trim(nodeTokens(i))
     Next i
 
-    dstSheetName = "æŠ½å‡º_" & Format(Now, "YYYYMMDD_HHMMSS")
+    dstSheetName = "’Šo_" & Format(Now, "YYYYMMDD_HHMMSS")
     Set dstWs = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
     dstWs.Name = dstSheetName
 
@@ -278,26 +278,26 @@ Public Sub FilterByNode()
     Next i
 
     If extractCount = 0 Then
-        MsgBox "è©²å½“ã™ã‚‹ç¯€ç‚¹ç•ªå·ã®è¡ŒãŒã‚ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚" & vbCrLf & _
-               "å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: " & dstSheetName, vbExclamation, "FilterByNode"
+        MsgBox "ŠY“–‚·‚éß“_”Ô†‚Ìs‚ª‚ ‚è‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & _
+               "o—ÍƒV[ƒg–¼: " & dstSheetName, vbExclamation, "FilterByNode"
     Else
-        MsgBox "å®Œäº†ã—ã¾ã—ãŸã€‚" & vbCrLf & _
-               "å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: " & dstSheetName & vbCrLf & _
-               "æŠ½å‡ºè¡Œæ•°: " & extractCount & " è¡Œ", vbInformation, "FilterByNode"
+        MsgBox "Š®—¹‚µ‚Ü‚µ‚½B" & vbCrLf & _
+               "o—ÍƒV[ƒg–¼: " & dstSheetName & vbCrLf & _
+               "’Šos”: " & extractCount & " s", vbInformation, "FilterByNode"
     End If
 
 End Sub
 
 ' -------------------------------------------------------
-' TXTã‚’1ãƒ‘ãƒ¼ã‚¹ã—ã¦UserForm1ã§ç¯€ç‚¹é¸æŠ â†’ æ–°è¦ã‚·ãƒ¼ãƒˆã¸è»¢è¨˜
+' TXT‚ğ1ƒp[ƒX‚µ‚ÄUserForm1‚Åß“_‘I‘ğ ¨ V‹KƒV[ƒg‚Ö“]‹L
 ' -------------------------------------------------------
 Public Sub ParseAndSelectNodes()
 
     Dim fd As FileDialog
     Set fd = Application.FileDialog(msoFileDialogFilePicker)
-    fd.Title = "æ”¯ç‚¹ååŠ›ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠã—ã¦ãã ã•ã„"
+    fd.Title = "x“_”½—ÍƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢"
     fd.Filters.Clear
-    fd.Filters.Add "ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«", "*.txt"
+    fd.Filters.Add "ƒeƒLƒXƒgƒtƒ@ƒCƒ‹", "*.txt"
     fd.AllowMultiSelect = False
     If fd.Show <> True Then Exit Sub
     Dim filePath As String
@@ -336,25 +336,25 @@ Public Sub ParseAndSelectNodes()
 
         If Len(trimmedLine) = 0 Then GoTo Skip1
         If Left(trimmedLine, 5) = "=====" Then GoTo Skip1
-        If InStr(line, "è·é‡ç•ªå·") > 0 Then
+        If InStr(line, "‰×d”Ô†") > 0 Then
             loadNumber = ExtractLoadNumber(line)
             loadName = ExtractLoadName(line)
             GoTo Skip1
         End If
-        If InStr(trimmedLine, "ç¯€ç‚¹ç•ªå·") > 0 Then GoTo Skip1
+        If InStr(trimmedLine, "ß“_”Ô†") > 0 Then GoTo Skip1
 
-        If Left(trimmedLine, 2) = "åˆè¨ˆ" Then
+        If Left(trimmedLine, 2) = "‡Œv" Then
             parts = SplitNormalized(trimmedLine)
             If UBound(parts) < 6 Then
-                Debug.Print "Warning: åˆè¨ˆè¡Œãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸è¶³ (line " & lineNum & ")"
+                Debug.Print "Warning: ‡ŒvsƒtƒB[ƒ‹ƒh•s‘« (line " & lineNum & ")"
                 GoTo Skip1
             End If
             If Not ValidateNumericParts(parts, 1, 6, lineNum) Then GoTo Skip1
-            nodeStr = "åˆè¨ˆ"
+            nodeStr = "‡Œv"
         ElseIf IsNumeric(Left(trimmedLine, InStr(trimmedLine & " ", " ") - 1)) Then
             parts = SplitNormalized(trimmedLine)
             If UBound(parts) < 6 Then
-                Debug.Print "Warning: ç¯€ç‚¹è¡Œãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸è¶³ (line " & lineNum & ")"
+                Debug.Print "Warning: ß“_sƒtƒB[ƒ‹ƒh•s‘« (line " & lineNum & ")"
                 GoTo Skip1
             End If
             If Not IsNumeric(parts(0)) Then GoTo Skip1
@@ -388,7 +388,7 @@ Skip1:
     Close #fileNum
 
     If rowCount = 0 Then
-        MsgBox "ãƒ‡ãƒ¼ã‚¿è¡ŒãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚", vbExclamation, "ParseAndSelectNodes"
+        MsgBox "ƒf[ƒ^s‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B", vbExclamation, "ParseAndSelectNodes"
         Exit Sub
     End If
 
@@ -398,18 +398,18 @@ Skip1:
         Exit Sub
     End If
     If selCount = 0 Then
-        MsgBox "ç¯€ç‚¹ç•ªå·ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚", vbExclamation, "ParseAndSelectNodes"
+        MsgBox "ß“_”Ô†‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB", vbExclamation, "ParseAndSelectNodes"
         Exit Sub
     End If
 
     Dim ws As Worksheet
     Dim sheetName As String
-    sheetName = "æ”¯ç‚¹ååŠ›_" & Format(Now, "YYYYMMDD_HHMMSS")
+    sheetName = "x“_”½—Í_" & Format(Now, "YYYYMMDD_HHMMSS")
     Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
     ws.Name = sheetName
 
     Dim headers As Variant
-    headers = Array("è·é‡ç•ªå·", "è·é‡åç§°", "ç¯€ç‚¹ç•ªå·", "RX", "RY", "RZ", "RMX", "RMY", "RMZ")
+    headers = Array("‰×d”Ô†", "‰×d–¼Ì", "ß“_”Ô†", "RX", "RY", "RZ", "RMX", "RMY", "RMZ")
     Dim c As Integer
     For c = 0 To 8
         ws.Cells(1, c + 1).Value = headers(c)
@@ -437,19 +437,19 @@ Skip1:
         End If
     Next k
 
-    MsgBox "å®Œäº†ã—ã¾ã—ãŸã€‚" & vbCrLf & _
-           "å‡ºåŠ›ã‚·ãƒ¼ãƒˆå: " & sheetName & vbCrLf & _
-           "è»¢è¨˜è¡Œæ•°: " & (rowIdx - 2) & " è¡Œ", vbInformation, "ParseAndSelectNodes"
+    MsgBox "Š®—¹‚µ‚Ü‚µ‚½B" & vbCrLf & _
+           "o—ÍƒV[ƒg–¼: " & sheetName & vbCrLf & _
+           "“]‹Ls”: " & (rowIdx - 2) & " s", vbInformation, "ParseAndSelectNodes"
     Exit Sub
 
 FileOpenError2:
-    MsgBox "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸã€‚" & vbCrLf & Err.Description, vbCritical, "ParseAndSelectNodes"
+    MsgBox "ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & Err.Description, vbCritical, "ParseAndSelectNodes"
 
 End Sub
 
 ' -------------------------------------------------------
-' UserForm1ã‚’ä½¿ã£ã¦ç¯€ç‚¹ç•ªå·ã‚’é¸æŠã•ã›ã‚‹
-' æˆ»ã‚Šå€¤: True=OK, False=ã‚­ãƒ£ãƒ³ã‚»ãƒ«
+' UserForm1‚ğg‚Á‚Äß“_”Ô†‚ğ‘I‘ğ‚³‚¹‚é
+' –ß‚è’l: True=OK, False=ƒLƒƒƒ“ƒZƒ‹
 ' -------------------------------------------------------
 Private Function ShowNodeSelectForm( _
     ByRef nodeList() As String, _
@@ -464,8 +464,8 @@ Private Function ShowNodeSelectForm( _
     On Error Resume Next
     Set frm = VBA.UserForms.Add("UserForm1")
     If Err.Number <> 0 Then
-        MsgBox "UserForm1 ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚" & vbCrLf & _
-               "å…ˆã« Module1.CreateUserForm() ã‚’å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚", _
+        MsgBox "UserForm1 ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB" & vbCrLf & _
+               "æ‚É Module1.CreateUserForm() ‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢B", _
                vbCritical, "ParseAndSelectNodes"
         Exit Function
     End If
@@ -476,7 +476,7 @@ Private Function ShowNodeSelectForm( _
         frm.Controls("lstNodes").AddItem nodeList(i)
     Next i
 
-    frm.Show   ' ãƒ¢ãƒ¼ãƒ€ãƒ«ï¼šOK/Cancel ã¾ã§ã“ã“ã§ãƒ–ãƒ­ãƒƒã‚¯
+    frm.Show   ' ƒ‚[ƒ_ƒ‹FOK/Cancel ‚Ü‚Å‚±‚±‚ÅƒuƒƒbƒN
 
     If frm.Tag = "OK" Then
         For i = 0 To frm.Controls("lstNodes").ListCount - 1
@@ -494,7 +494,7 @@ Private Function ShowNodeSelectForm( _
 End Function
 
 ' -------------------------------------------------------
-' é€£ç¶šã‚¹ãƒšãƒ¼ã‚¹ã‚’æ­£è¦åŒ–ã—ã¦Split
+' ˜A‘±ƒXƒy[ƒX‚ğ³‹K‰»‚µ‚ÄSplit
 ' -------------------------------------------------------
 Private Function SplitNormalized(ByVal s As String) As String()
     Do While InStr(s, "  ") > 0
@@ -504,19 +504,19 @@ Private Function SplitNormalized(ByVal s As String) As String()
 End Function
 
 ' -------------------------------------------------------
-' è·é‡ç•ªå·ã‚’æŠ½å‡º: "è·é‡ç•ªå· =  100" ã®æ•°å€¤éƒ¨åˆ†
+' ‰×d”Ô†‚ğ’Šo: "‰×d”Ô† =  100" ‚Ì”’l•”•ª
 ' -------------------------------------------------------
 Private Function ExtractLoadNumber(ByVal line As String) As Long
     Dim pos As Long
     Dim token As String
-    pos = InStr(line, "è·é‡ç•ªå·")
+    pos = InStr(line, "‰×d”Ô†")
     If pos = 0 Then
         ExtractLoadNumber = 0
         Exit Function
     End If
     Dim sub1 As String
     Dim posName As Long
-    posName = InStr(line, "è·é‡åç§°")
+    posName = InStr(line, "‰×d–¼Ì")
     If posName > 0 Then
         sub1 = Mid(line, pos, posName - pos)
     Else
@@ -538,11 +538,11 @@ Private Function ExtractLoadNumber(ByVal line As String) As Long
 End Function
 
 ' -------------------------------------------------------
-' è·é‡åç§°ã‚’æŠ½å‡º: "è·é‡åç§° =  ï¼ˆæ–‡å­—åˆ—ï¼‰" ã®æ–‡å­—åˆ—éƒ¨åˆ†
+' ‰×d–¼Ì‚ğ’Šo: "‰×d–¼Ì =  i•¶š—ñj" ‚Ì•¶š—ñ•”•ª
 ' -------------------------------------------------------
 Private Function ExtractLoadName(ByVal line As String) As String
     Dim pos As Long
-    pos = InStr(line, "è·é‡åç§°")
+    pos = InStr(line, "‰×d–¼Ì")
     If pos = 0 Then
         ExtractLoadName = ""
         Exit Function
@@ -559,7 +559,7 @@ Private Function ExtractLoadName(ByVal line As String) As String
 End Function
 
 ' -------------------------------------------------------
-' æŒ‡å®šç¯„å›²ã®partsè¦ç´ ãŒå…¨ã¦Numericã‹æ¤œè¨¼
+' w’è”ÍˆÍ‚Ìparts—v‘f‚ª‘S‚ÄNumeric‚©ŒŸØ
 ' -------------------------------------------------------
 Private Function ValidateNumericParts(ByRef parts() As String, _
                                        ByVal fromIdx As Integer, _
@@ -568,7 +568,7 @@ Private Function ValidateNumericParts(ByRef parts() As String, _
     Dim i As Integer
     For i = fromIdx To toIdx
         If Not IsNumeric(parts(i)) Then
-            Debug.Print "Warning: æ•°å€¤å¤‰æ›å¤±æ•— parts(" & i & ")='" & parts(i) & "' (line " & lineNum & ")"
+            Debug.Print "Warning: ”’l•ÏŠ·¸”s parts(" & i & ")='" & parts(i) & "' (line " & lineNum & ")"
             ValidateNumericParts = False
             Exit Function
         End If
@@ -577,7 +577,7 @@ Private Function ValidateNumericParts(ByRef parts() As String, _
 End Function
 
 ' -------------------------------------------------------
-' ç¯€ç‚¹ç•ªå·ãƒªã‚¹ãƒˆä¸€è‡´åˆ¤å®š
+' ß“_”Ô†ƒŠƒXƒgˆê’v”»’è
 ' -------------------------------------------------------
 Private Function IsInList(ByVal target As String, ByRef list() As String) As Boolean
     Dim i As Integer
@@ -591,7 +591,7 @@ Private Function IsInList(ByVal target As String, ByRef list() As String) As Boo
 End Function
 
 ' -------------------------------------------------------
-' 1è¡Œåˆ†ã‚’ã‚·ãƒ¼ãƒˆã¸æ›¸ãè¾¼ã‚€
+' 1s•ª‚ğƒV[ƒg‚Ö‘‚«‚Ş
 ' -------------------------------------------------------
 Private Sub WriteRow(ByVal ws As Worksheet, ByVal rowIdx As Long, _
                      ByVal loadNum As Long, ByVal loadNm As String, _

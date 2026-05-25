@@ -2,14 +2,14 @@ Attribute VB_Name = "CopyToOpenBook"
 Option Explicit
 
 ' -------------------------------------------------------
-' ThisWorkbook内の指定シートを別の開いているブックへコピー
+' ThisWorkbook���̎w��V�[�g��ʂ̊J���Ă���u�b�N�փR�s�[
 ' -------------------------------------------------------
 Public Sub CopyToOpenBook()
 
-    ' --- コピー元シートの選択 ---
+    ' --- �R�s�[���V�[�g�̑I�� ---
     Dim srcSheetName As String
-    srcSheetName = InputBox("コピー元のシート名を入力してください" & vbCrLf & _
-                            "（例：支点反力_20260525_143022）", "CopyToOpenBook")
+    srcSheetName = InputBox("�R�s�[���̃V�[�g������͂��Ă�������" & vbCrLf & _
+                            "�i��F�x�_����_20260525_143022�j", "CopyToOpenBook")
     If StrPtr(srcSheetName) = 0 Then Exit Sub
     If Trim(srcSheetName) = "" Then Exit Sub
 
@@ -18,11 +18,11 @@ Public Sub CopyToOpenBook()
     Set srcWs = ThisWorkbook.Worksheets(srcSheetName)
     On Error GoTo 0
     If srcWs Is Nothing Then
-        MsgBox "シート「" & srcSheetName & "」が見つかりません。", vbCritical, "CopyToOpenBook"
+        MsgBox "�V�[�g�u" & srcSheetName & "�v��������܂���B", vbCritical, "CopyToOpenBook"
         Exit Sub
     End If
 
-    ' --- コピー先ブックの選択 ---
+    ' --- �R�s�[��u�b�N�̑I�� ---
     Dim bookList As String
     Dim wb As Workbook
     For Each wb In Workbooks
@@ -32,13 +32,13 @@ Public Sub CopyToOpenBook()
     Next wb
 
     If Len(bookList) = 0 Then
-        MsgBox "コピー先となる別のブックが開かれていません。" & vbCrLf & _
-               "コピー先のブックを開いてから再実行してください。", vbExclamation, "CopyToOpenBook"
+        MsgBox "�R�s�[��ƂȂ�ʂ̃u�b�N���J����Ă��܂���B" & vbCrLf & _
+               "�R�s�[��̃u�b�N���J���Ă���Ď��s���Ă��������B", vbExclamation, "CopyToOpenBook"
         Exit Sub
     End If
 
     Dim dstBookName As String
-    dstBookName = InputBox("コピー先のブック名を入力してください：" & vbCrLf & bookList, "CopyToOpenBook")
+    dstBookName = InputBox("�R�s�[��̃u�b�N������͂��Ă��������F" & vbCrLf & bookList, "CopyToOpenBook")
     If StrPtr(dstBookName) = 0 Then Exit Sub
     If Trim(dstBookName) = "" Then Exit Sub
 
@@ -47,14 +47,14 @@ Public Sub CopyToOpenBook()
     Set dstWb = Workbooks(dstBookName)
     On Error GoTo 0
     If dstWb Is Nothing Then
-        MsgBox "ブック「" & dstBookName & "」が見つかりません。", vbCritical, "CopyToOpenBook"
+        MsgBox "�u�b�N�u" & dstBookName & "�v��������܂���B", vbCritical, "CopyToOpenBook"
         Exit Sub
     End If
 
-    ' --- シートをコピー ---
+    ' --- �V�[�g���R�s�[ ---
     srcWs.Copy After:=dstWb.Sheets(dstWb.Sheets.Count)
 
-    MsgBox "「" & srcSheetName & "」を「" & dstBookName & "」にコピーしました。", _
+    MsgBox "�u" & srcSheetName & "�v���u" & dstBookName & "�v�ɃR�s�[���܂����B", _
            vbInformation, "CopyToOpenBook"
 
 End Sub

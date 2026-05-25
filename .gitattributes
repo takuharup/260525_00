@@ -1,5 +1,5 @@
-# VBA source files - UTF-8 with CRLF
-*.bas   text eol=crlf
+# VBA source files - Shift-JIS + CRLF for Japanese Windows VBE import
+*.bas   -text
 
 # VBScript - ASCII only, CRLF
 *.vbs   text eol=crlf
