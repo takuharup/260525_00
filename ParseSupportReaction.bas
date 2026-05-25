@@ -226,6 +226,103 @@ Private Function ValidateNumericParts(ByRef parts() As String, _
 End Function
 
 ' -------------------------------------------------------
+' 節点番号フィルタ抽出
+' -------------------------------------------------------
+Public Sub FilterByNode()
+
+    Dim srcSheetName As String
+    Dim srcWs As Worksheet
+    Dim dstWs As Worksheet
+    Dim dstSheetName As String
+
+    Dim nodeInput As String
+    Dim nodeTokens() As String
+    Dim i As Integer
+
+    Dim lastRow As Long
+    Dim dstRow As Long
+    Dim cellVal As String
+
+    ' --- ステップ① 元テーブルシート選択 ---
+    srcSheetName = InputBox("抽出元のシート名を入力してください" & vbCrLf & _
+                            "（例：支点反力_20260525_143022）", "FilterByNode")
+    If StrPtr(srcSheetName) = 0 Then Exit Sub       ' キャンセル
+    If Trim(srcSheetName) = "" Then Exit Sub        ' 空入力もサイレント終了
+
+    On Error Resume Next
+    Set srcWs = ThisWorkbook.Worksheets(srcSheetName)
+    On Error GoTo 0
+    If srcWs Is Nothing Then
+        MsgBox "シート「" & srcSheetName & "」が見つかりません。", vbCritical, "FilterByNode"
+        Exit Sub
+    End If
+
+    ' --- ステップ② 節点番号リスト入力 ---
+    nodeInput = InputBox("抽出する節点番号をカンマ区切りで入力してください" & vbCrLf & _
+                         "（例： 1,3,合計　または　合計）", "FilterByNode")
+    If StrPtr(nodeInput) = 0 Then Exit Sub          ' キャンセル
+    If Trim(nodeInput) = "" Then
+        MsgBox "節点番号が入力されていません。", vbExclamation, "FilterByNode"
+        Exit Sub
+    End If
+
+    ' カンマSplitして各要素をTrim
+    nodeTokens = Split(nodeInput, ",")
+    For i = 0 To UBound(nodeTokens)
+        nodeTokens(i) = Trim(nodeTokens(i))
+    Next i
+
+    ' --- 新規シート作成 ---
+    dstSheetName = "抽出_" & Format(Now, "YYYYMMDD_HHMMSS")
+    Set dstWs = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+    dstWs.Name = dstSheetName
+
+    ' --- ヘッダーコピー ---
+    dstWs.Rows(1).Value = srcWs.Rows(1).Value
+    dstRow = 2
+
+    ' --- データ行走査 ---
+    lastRow = srcWs.Cells(srcWs.Rows.Count, 1).End(xlUp).Row
+
+    Dim extractCount As Long
+    extractCount = 0
+
+    For i = 2 To lastRow
+        cellVal = Trim(CStr(srcWs.Cells(i, 3).Value))
+        If IsInList(cellVal, nodeTokens) Then
+            dstWs.Rows(dstRow).Value = srcWs.Rows(i).Value
+            dstRow = dstRow + 1
+            extractCount = extractCount + 1
+        End If
+    Next i
+
+    ' --- 完了メッセージ ---
+    If extractCount = 0 Then
+        MsgBox "該当する節点番号の行がありませんでした。" & vbCrLf & _
+               "出力シート名: " & dstSheetName, vbExclamation, "FilterByNode"
+    Else
+        MsgBox "完了しました。" & vbCrLf & _
+               "出力シート名: " & dstSheetName & vbCrLf & _
+               "抽出行数: " & extractCount & " 行", vbInformation, "FilterByNode"
+    End If
+
+End Sub
+
+' -------------------------------------------------------
+' 節点番号リスト一致判定
+' -------------------------------------------------------
+Private Function IsInList(ByVal target As String, ByRef list() As String) As Boolean
+    Dim i As Integer
+    For i = 0 To UBound(list)
+        If Trim(list(i)) = Trim(target) Then
+            IsInList = True
+            Exit Function
+        End If
+    Next i
+    IsInList = False
+End Function
+
+' -------------------------------------------------------
 ' 1行分をシートへ書き込む
 ' -------------------------------------------------------
 Private Sub WriteRow(ByVal ws As Worksheet, ByVal rowIdx As Long, _
