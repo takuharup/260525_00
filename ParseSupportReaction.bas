@@ -442,32 +442,12 @@ Skip1:
         Exit Sub
     End If
 
-    ' --- FormNodeSelect で節点選択 ---
-    Dim frm As FormNodeSelect
-    Set frm = New FormNodeSelect
-    Dim j As Integer
-    For j = 0 To nodeCount - 1
-        frm.lstNodes.AddItem nodeList(j)
-    Next j
-    frm.Show
-
-    If frm.Tag <> "OK" Then
-        Unload frm
-        Exit Sub
-    End If
-
+    ' --- 動的UserFormで節点選択 ---
     Dim selectedNodes() As String
     Dim selCount As Integer
-    selCount = 0
-    For j = 0 To frm.lstNodes.ListCount - 1
-        If frm.lstNodes.Selected(j) Then
-            ReDim Preserve selectedNodes(selCount)
-            selectedNodes(selCount) = frm.lstNodes.List(j)
-            selCount = selCount + 1
-        End If
-    Next j
-    Unload frm
-
+    If Not ShowNodeSelectForm(nodeList, nodeCount, selectedNodes, selCount) Then
+        Exit Sub
+    End If
     If selCount = 0 Then
         MsgBox "節点番号が選択されていません。", vbExclamation, "ParseAndSelectNodes"
         Exit Sub
@@ -519,6 +499,117 @@ FileOpenError2:
     MsgBox "ファイルを開けませんでした。" & vbCrLf & Err.Description, vbCritical, "ParseAndSelectNodes"
 
 End Sub
+
+' -------------------------------------------------------
+' 動的UserFormを生成して節点番号を選択させる
+' 戻り値: True=OK, False=キャンセル
+' VBEアクセス要（トラストセンター設定が必要）
+' -------------------------------------------------------
+Private Function ShowNodeSelectForm( _
+    ByRef nodeList() As String, _
+    ByVal nodeCount As Long, _
+    ByRef selectedNodes() As String, _
+    ByRef selCount As Integer) As Boolean
+
+    ShowNodeSelectForm = False
+    selCount = 0
+
+    Dim vbc As Object
+    On Error Resume Next
+    Set vbc = ThisWorkbook.VBProject.VBComponents.Add(3)  ' vbext_ct_MSForm
+    If Err.Number <> 0 Then
+        MsgBox "VBAプロジェクトへのアクセスが許可されていません。" & vbCrLf & _
+               "「ファイル」→「オプション」→「トラストセンター」→" & vbCrLf & _
+               "「トラストセンターの設定」→「マクロの設定」で" & vbCrLf & _
+               "「VBAプロジェクト オブジェクト モデルへのアクセスを信頼する」" & vbCrLf & _
+               "を有効にしてから再実行してください。", vbCritical, "ParseAndSelectNodes"
+        Exit Function
+    End If
+    On Error GoTo Cleanup
+
+    ' フォーム基本設定
+    vbc.Name = "TmpNodeSelectForm"
+    vbc.Properties("Caption")         = "節点番号選択"
+    vbc.Properties("Width")           = 282
+    vbc.Properties("Height")          = 372
+    vbc.Properties("StartUpPosition") = 1
+
+    ' ラベル
+    Dim lbl As Object
+    Set lbl = vbc.Designer.Controls.Add("Forms.Label.1")
+    lbl.Caption = "転記する節点番号を選択してください（複数選択可）"
+    lbl.Left = 6 : lbl.Top = 6 : lbl.Width = 264 : lbl.Height = 18
+
+    ' リストボックス
+    Dim lst As Object
+    Set lst = vbc.Designer.Controls.Add("Forms.ListBox.1")
+    lst.Name = "lstNodes"
+    lst.Left = 6 : lst.Top = 30 : lst.Width = 264 : lst.Height = 246
+    lst.MultiSelect = 1
+
+    ' OK ボタン
+    Dim btnOK As Object
+    Set btnOK = vbc.Designer.Controls.Add("Forms.CommandButton.1")
+    btnOK.Name = "btnOK"
+    btnOK.Caption = "OK"
+    btnOK.Left = 60 : btnOK.Top = 288 : btnOK.Width = 72 : btnOK.Height = 24
+
+    ' キャンセルボタン
+    Dim btnCancel As Object
+    Set btnCancel = vbc.Designer.Controls.Add("Forms.CommandButton.1")
+    btnCancel.Name = "btnCancel"
+    btnCancel.Caption = "キャンセル"
+    btnCancel.Left = 156 : btnCancel.Top = 288 : btnCancel.Width = 90 : btnCancel.Height = 24
+
+    ' イベントコード注入
+    Dim fc As String
+    fc = "Private Sub btnOK_Click()" & vbCrLf & _
+         "    Me.Tag = ""OK"" : Me.Hide" & vbCrLf & _
+         "End Sub" & vbCrLf & _
+         "Private Sub btnCancel_Click()" & vbCrLf & _
+         "    Me.Tag = ""Cancel"" : Me.Hide" & vbCrLf & _
+         "End Sub" & vbCrLf & _
+         "Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)" & vbCrLf & _
+         "    If CloseMode = vbFormControlMenu Then" & vbCrLf & _
+         "        Me.Tag = ""Cancel"" : Me.Hide : Cancel = True" & vbCrLf & _
+         "    End If" & vbCrLf & _
+         "End Sub"
+    vbc.CodeModule.AddFromString fc
+
+    ' フォームインスタンス化・リスト投入・表示
+    Dim frm As Object
+    Set frm = VBA.UserForms.Add(vbc.Name)
+
+    Dim i As Long
+    For i = 0 To nodeCount - 1
+        frm.Controls("lstNodes").AddItem nodeList(i)
+    Next i
+
+    frm.Show   ' モーダル：OK/Cancel までここでブロック
+
+    ' 選択結果を取得
+    If frm.Tag = "OK" Then
+        For i = 0 To frm.Controls("lstNodes").ListCount - 1
+            If frm.Controls("lstNodes").Selected(i) Then
+                ReDim Preserve selectedNodes(selCount)
+                selectedNodes(selCount) = frm.Controls("lstNodes").List(i)
+                selCount = selCount + 1
+            End If
+        Next i
+        ShowNodeSelectForm = True
+    End If
+
+    Unload frm
+
+Cleanup:
+    ' 一時フォームコンポーネントを必ず除去
+    On Error Resume Next
+    If Not vbc Is Nothing Then
+        ThisWorkbook.VBProject.VBComponents.Remove vbc
+    End If
+    On Error GoTo 0
+
+End Function
 
 ' -------------------------------------------------------
 ' 1行分をシートへ書き込む
