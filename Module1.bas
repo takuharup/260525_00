@@ -14,7 +14,7 @@ Private Type ReactionRow
 End Type
 
 ' -------------------------------------------------------
-' UserForm1をVBAプロジェクトへ恒久作成（import後に1回だけ実行）
+' UserForm2をVBAプロジェクトへ恒久作成（import後に1回だけ実行）
 ' -------------------------------------------------------
 Public Sub CreateUserForm()
 
@@ -22,7 +22,7 @@ Public Sub CreateUserForm()
     Set vbp = ThisWorkbook.VBProject
 
     On Error Resume Next
-    vbp.VBComponents.Remove vbp.VBComponents("UserForm1")
+    vbp.VBComponents.Remove vbp.VBComponents("UserForm2")
     On Error GoTo 0
 
     Dim vbc As Object
@@ -38,7 +38,7 @@ Public Sub CreateUserForm()
     End If
     On Error GoTo 0
 
-    vbc.Name = "UserForm1"
+    vbc.Name = "UserForm2"
     vbc.Properties("Caption")         = "節点番号選択"
     vbc.Properties("Width")           = 282
     vbc.Properties("Height")          = 372
@@ -82,7 +82,7 @@ Public Sub CreateUserForm()
     vbc.CodeModule.AddFromString fc
 
     ThisWorkbook.Save
-    MsgBox "UserForm1 を作成しました。次回から ParseAndSelectNodes をそのまま実行できます。", _
+    MsgBox "UserForm2 を作成しました。次回から ParseAndSelectNodes をそのまま実行できます。", _
            vbInformation, "CreateUserForm"
 
 End Sub
@@ -289,7 +289,7 @@ Public Sub FilterByNode()
 End Sub
 
 ' -------------------------------------------------------
-' TXTを1パースしてUserForm1で節点選択 → 新規シートへ転記
+' TXTを1パースしてUserForm2で節点選択 → 新規シートへ転記
 ' -------------------------------------------------------
 Public Sub ParseAndSelectNodes()
 
@@ -448,7 +448,7 @@ FileOpenError2:
 End Sub
 
 ' -------------------------------------------------------
-' UserForm1を使って節点番号を選択させる
+' UserForm2を使って節点番号を選択させる
 ' 戻り値: True=OK, False=キャンセル
 ' -------------------------------------------------------
 Private Function ShowNodeSelectForm( _
@@ -462,9 +462,9 @@ Private Function ShowNodeSelectForm( _
 
     Dim frm As Object
     On Error Resume Next
-    Set frm = VBA.UserForms.Add("UserForm1")
+    Set frm = VBA.UserForms.Add("UserForm2")
     If Err.Number <> 0 Then
-        MsgBox "UserForm1 が見つかりません。" & vbCrLf & _
+        MsgBox "UserForm2 が見つかりません。" & vbCrLf & _
                "先に Module1.CreateUserForm() を実行してください。", _
                vbCritical, "ParseAndSelectNodes"
         Exit Function
